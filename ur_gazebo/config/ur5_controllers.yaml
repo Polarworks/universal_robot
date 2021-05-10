@@ -18,7 +18,7 @@ eff_joint_traj_controller:
     wrist_1_joint: {p: 500,  d: 1, i: 1, i_clamp: 1}
     wrist_2_joint: {p: 500,  d: 1, i: 1, i_clamp: 1}
     wrist_3_joint: {p: 10,  d: 0.1, i: 0, i_clamp: 1} 
-  constraints:
+  constraints: &constraints
     goal_time: 0.6
     stopped_velocity_tolerance: 0.05
     shoulder_pan_joint: {trajectory: 0.1, goal: 0.1}
@@ -31,6 +31,17 @@ eff_joint_traj_controller:
   state_publish_rate: *loop_hz
   action_monitor_rate: 10
 
+pos_joint_traj_controller:
+  type: position_controllers/JointTrajectoryController
+  joints: *robot_joints
+  constraints: *constraints
+  stop_trajectory_duration: 0.5
+  state_publish_rate: *loop_hz
+  action_monitor_rate: 10
+
 joint_group_eff_controller:
   type: effort_controllers/JointGroupEffortController
   joints: *robot_joints
+
+joint_group_pos_controller:
+  type: position_controllers/JointGroupPositionController
